@@ -71,12 +71,7 @@ class Ui_MainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.path_vertical_layout.addItem(spacerItem2)
 
-        #role_list_view
-        self.Role_list_view = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
-        self.Role_list_view.setObjectName("Role_list_view")
-        self.path_vertical_layout.addWidget(self.Role_list_view)
-        self.Role_list_view.setWordWrap(True)
-
+        
         #spacer
         spacerItem1 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.path_vertical_layout.addItem(spacerItem1)
@@ -104,6 +99,13 @@ class Ui_MainWindow(object):
         self.role_description_label = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
         self.role_description_label.setObjectName("role_description_label")
         self.verticalLayout_2.addWidget(self.role_description_label)
+
+        #role_list_view
+        self.Role_list_view = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
+        self.Role_list_view.setObjectName("Role_list_view")
+        self.verticalLayout_2.addWidget(self.Role_list_view)
+        self.Role_list_view.setWordWrap(True)
+
         
         #Role list
         self.Role_description_list = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
