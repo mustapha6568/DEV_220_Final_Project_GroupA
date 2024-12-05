@@ -14,6 +14,205 @@ skillclasses = db_config.return_skillclasses()
 skillroles = db_config.return_skillroles()
 skillpaths = db_config.return_skillpaths()
 
+class skill_paths:
+    
+    def __init__(self,id:list,skillpathname:list,skillpathdescription:list) -> None:
+        """
+        :param id: Must be a list of all id's from the skillpaths table
+        :param skillpathname: Must be a list of all skillpathnames of the skillpaths table
+        :param skillpathdescription: Must be a list of all skillpathdescriptions of the skillpaths table
+        """
+
+        self.id = id
+        self.skillpathname = skillpathname
+        self.skillpathdescription =skillpathdescription
+
+    def get_index_by_id(self,given_id):
+        """
+        :return: Returns the index of the given_id or will print an exception if it doesn't exactly match
+        
+        """ 
+        try:
+            match given_id:
+                case None:
+                    pass
+                case _ : return self.id.index(given_id)
+
+
+        except ValueError:
+            print(f"{given_id} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+    def get_index_by_skillpathname(self,given_skillpathname):
+        """
+        :return: Returns the index of the given_skillpathname or will print an exception if it doesn't exactly match
+        
+        """
+        try:
+            match given_skillpathname:
+                case None:
+                    pass
+                case _ : return self.skillpathname.index(given_skillpathname)
+
+
+        except ValueError:
+            print(f"{given_skillpathname} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+    def get_index_by_skillpathdescription(self,given_skillpathdescription):
+        """
+        :return: Returns the index of the given_skillpathdescription or will print an exception if it doesn't exactly match
+        
+        """
+
+        try:
+            match given_skillpathdescription:
+                case None:
+                    pass
+                case _ : return self.skillpathdescription.index(given_skillpathdescription)
+
+
+        except ValueError:
+            print(f"{given_skillpathdescription} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+class skill_roles:
+    def __init__(self,id:list,Rolename:list,Roledescription:list) -> None:
+        """
+        :param id: Must be a list of all id of the skillroles table
+        :param Rolename: Must be a list of all Rolenames of the skillroles table
+        :param Roledesciption: Must be a list of all Roledesciptions of the skillroles table
+        """
+        self.id = id
+        self.Rolename = Rolename
+        self.Roledescription = Roledescription
+
+
+    def get_index_by_id(self,given_id):
+        """
+        :return: Returns the index of the given_id or will print an exception if it doesn't exactly match
+        
+        """
+
+
+        try:
+            match given_id:
+                case None:
+                    pass
+                case _ : return self.id.index(given_id)
+
+
+        except ValueError:
+            print(f"{given_id} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+    def get_index_by_RoleName(self,given_Rolename):
+        """
+        :return: Returns the index of the given_Rolename or will print an exception if it doesn't exactly match
+        
+        """
+         
+        try:
+            match given_Rolename:
+                case None:
+                    pass
+                case _ : return self.Rolename.index(given_Rolename)
+
+
+        except ValueError:
+            print(f"{given_Rolename} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+    def get_index_by_RoleDescription(self,given_Roledescription):
+        """
+        :return: Returns the index of the given_Roledescription or will print an exception if it doesn't exactly match
+        
+        """ 
+        try:
+            match given_Roledescription:
+                case None:
+                    pass
+                case _ : return self.Roledescription.index(given_Roledescription)
+
+
+        except ValueError:
+            print(f"{given_Roledescription} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+class skill_classes:
+    def __init__(self,ClassID:list,Rolename:list,id:list) -> None:
+        """
+        :param ClassID: Must be a list of all ClassIDs of the skill_classes table
+        :param Rolename: Must be a list of all Rolenames of the skill_classes table
+        :param id: Must be a list of all id of the skill_classes table
+        """
+        self.ClassID =ClassID
+        self.Rolename = Rolename
+        self.id = id
+
+    def get_index_by_ClassID(self,given_ClassID):
+        """
+        :return: Returns the index of the given_ClassID or will print an exception if it doesn't exactly match
+        
+        """ 
+
+        try:
+            match given_ClassID:
+                case None:
+                    pass
+                case _ : return self.ClassID.index(given_ClassID)
+
+
+        except ValueError:
+            print(f"{given_ClassID} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+    def get_index_by_Rolename(self,given_Rolename):
+        """
+        :return: Returns the index of the given_Rolename or will print an exception if it doesn't exactly match
+        
+        """ 
+
+        try:
+            match given_Rolename:
+                case None:
+                    pass
+                case _ : return self.Rolename.index(given_Rolename)
+
+
+        except ValueError:
+            print(f"{given_Rolename} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+    def get_index_by_id(self,given_id):
+        """
+        :return: Returns the index of the given_id or will print an exception if it doesn't exactly match
+        
+        """ 
+        try:
+            match given_id:
+                case None:
+                    pass
+                case _ : return self.id.index(given_id)
+
+        except ValueError:
+            print(f"{given_id} doesn't exist:::: Maybe try again with different spelling or Capitalization")
+
+
+
+Classes = skill_classes([x[0] for x in skillclasses],[x[1] for x in skillclasses],[x[2] for x in skillclasses])
+
+Roles = skill_roles([x[0] for x in skillroles],[x[1] for x in skillroles],[x[2] for x in skillroles])
+
+
+#This is a test of the class and the get_index_by_id
+Paths = skill_paths([x[0] for x in skillpaths],[x[1] for x in skillpaths],[x[2] for x in skillpaths])
+print(Paths.get_index_by_id("H"))
+
+
+
+
+
 
 
 
