@@ -1,6 +1,4 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-#from db import open_connection
-
 import db_config
 from __init__ import install_requirements
 
