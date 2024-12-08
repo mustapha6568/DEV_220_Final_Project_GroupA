@@ -222,7 +222,7 @@ print(Paths.get_index_by_id("H"))
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(848, 582)
+        MainWindow.resize(796, 562)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.columnView_2 = QtWidgets.QColumnView(parent=self.centralwidget)
@@ -280,7 +280,7 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(parent=self.centralwidget)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(380, 0, 421, 501))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(380, 0, 415, 501))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -323,6 +323,7 @@ class Ui_MainWindow(object):
        #classes list
         self.Class_list = QtWidgets.QListWidget(parent=self.verticalLayoutWidget_2)
         self.Class_list.setObjectName("Class_list")
+        #self.Class_list.setGeometry(QtCore.QRect(375, 0, 421, 501))
         self.verticalLayout_2.addWidget(self.Class_list)
        
        #button
