@@ -2,13 +2,11 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 import db_config
 from __init__ import install_requirements
 import podcast
-from PyQt6 import QtMultimedia,QtMultimediaWidgets
-import asyncio
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
+from PyQt6.QtWidgets import QPushButton
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from PyQt6.QtCore import QUrl
-
+import save_plan
 
 #If user has a path issue then this will make it more understandable for the user
 try:
@@ -218,15 +216,6 @@ Roles = skill_roles([x[0] for x in skillroles],[x[1] for x in skillroles],[x[2] 
 #This is a test of the class and the get_index_by_id
 Paths = skill_paths([x[0] for x in skillpaths],[x[1] for x in skillpaths],[x[2] for x in skillpaths])
 
-for i in range(0,len(Roles.id)):
-    if ((Roles.id[i][0]) == "D"):
-        print("D  Skill Path :",Paths.skillpathname[0],"Skill Description :",Paths.skillpathdescription[0]," Role-name :",Roles.Rolename[i],"Role Description :",Roles.Roledescription[i],"\n\n\n")
-
-
-
-
-
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -363,10 +352,10 @@ class Ui_MainWindow(object):
         self.pushButton.clicked.connect(self.on_pushbutton_clicked)
        
         #print button
-        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(0, 500, 111, 41))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton.clicked.connect(self.on_pushbutton_clicked)
+        self.print_button = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.print_button.setGeometry(QtCore.QRect(685, 500, 111, 41))
+        self.print_button.setObjectName("Print All")
+        self.print_button.clicked.connect(self.force_print)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
@@ -408,10 +397,16 @@ class Ui_MainWindow(object):
         self.classes_label.setFont(myFont)
         self.pushButton.setText(_translate("MainWindow", "Clear"))
         self.pushButton.setFont(myFont)
+        self.print_button.setText("Force Print")
+        self.print_button.setFont(myFont)
 
-
-    def force_print():
-        pass
+    def force_print(self):
+        try:
+            if self.rol_combo_box.currentText()!="":
+                if self.Class_list.currentItem()!= None:
+                    save_plan.create_and_write("Path",skill_path=self.skill_combo_box.currentText(),path_desc=self.skill_description_list.text(),role=self.rol_combo_box.currentText(),classes=self.Class_list.currentItem())
+        except TypeError:
+            pass
 
 
 
