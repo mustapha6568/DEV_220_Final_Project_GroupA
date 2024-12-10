@@ -3,6 +3,7 @@ import db_config
 from __init__ import install_requirements
 import podcast
 import sys
+import os
 from PyQt6.QtWidgets import QPushButton
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from PyQt6.QtCore import QUrl
@@ -221,6 +222,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(796, 562)
+        
+        
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.columnView_2 = QtWidgets.QColumnView(parent=self.centralwidget)
@@ -381,9 +384,13 @@ class Ui_MainWindow(object):
 
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Path Finder"))
-
         self.skill_label.setText(_translate("MainWindow", "Select a Skill Path:"))        
         self.skill_label.setFont(myFont)
+
+        #Sets Icon img
+        app_icon = QtGui.QIcon()
+        app_icon.addFile(f"{os.getcwd()}"+r"\icon"+r"\Path.jpeg")
+        MainWindow.setWindowIcon(app_icon)
 
         self.skill_description.setText(_translate("MainWindow", "Skill Description:"))
         self.skill_description.setFont(myFont)
