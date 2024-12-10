@@ -1,6 +1,14 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 import db_config
 from __init__ import install_requirements
+import podcast
+from PyQt6 import QtMultimedia,QtMultimediaWidgets
+import asyncio
+import sys
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
+from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
+from PyQt6.QtCore import QUrl
+
 
 #If user has a path issue then this will make it more understandable for the user
 try:
@@ -210,8 +218,10 @@ Roles = skill_roles([x[0] for x in skillroles],[x[1] for x in skillroles],[x[2] 
 
 #This is a test of the class and the get_index_by_id
 Paths = skill_paths([x[0] for x in skillpaths],[x[1] for x in skillpaths],[x[2] for x in skillpaths])
-print(Paths.get_index_by_id("H"))
 
+for i in range(0,len(Roles.id)):
+    if ((Roles.id[i][0]) == "D"):
+        print("D  Skill Path :",Paths.skillpathname[0],"Skill Description :",Paths.skillpathdescription[0]," Role-name :",Roles.Rolename[i],"Role Description :",Roles.Roledescription[i],"\n\n\n")
 
 
 
@@ -314,6 +324,27 @@ class Ui_MainWindow(object):
         self.Role_description_list.setObjectName("Role_description_list")
         self.Role_description_list.setWordWrap(True)
         self.verticalLayout_2.addWidget(self.Role_description_list)
+
+        self.media_player = QMediaPlayer(self.verticalLayoutWidget_2)
+        self.audio_output = QAudioOutput(self.verticalLayoutWidget_2)
+        self.media_player.setAudioOutput(self.audio_output)
+        
+
+        self.create_controls()
+
+    def create_controls(self):
+        # Play button
+        self.play_button = QPushButton('Play')
+        self.play_button.clicked.connect(self.player)
+
+        # Stop button
+        self.stop_button = QPushButton('Stop')
+        self.stop_button.clicked.connect(self.media_player.stop)
+        
+        #Adds play and stop button
+        self.verticalLayout_2.addWidget(self.play_button)
+        self.verticalLayout_2.addWidget(self.stop_button)
+    
         
         #Classes label
         self.classes_label = QtWidgets.QLabel(parent=self.verticalLayoutWidget_2)
@@ -323,40 +354,66 @@ class Ui_MainWindow(object):
        #classes list
         self.Class_list = QtWidgets.QListWidget(parent=self.verticalLayoutWidget_2)
         self.Class_list.setObjectName("Class_list")
-        #self.Class_list.setGeometry(QtCore.QRect(375, 0, 421, 501))
         self.verticalLayout_2.addWidget(self.Class_list)
        
-       #button
+       #Clear button
         self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(0, 500, 111, 41))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.on_pushbutton_clicked)
        
+        #print button
+        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(0, 500, 111, 41))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.on_pushbutton_clicked)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-       
         self.menubar.setGeometry(QtCore.QRect(0, 0, 848, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
+        
+    def player(self):
+        try:
+            self.media_player.setSource(QUrl.fromLocalFile(podcast.retrieve_and_play([skillroles[[x[1] for x in skillroles].index(self.rol_combo_box.currentText())][0]])))
+            self.media_player.play()
+        except ValueError:
+            pass
 
     def retranslateUi(self, MainWindow):
+        myFont = QtGui.QFont()
+        myFont.setBold(True)
+
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Path Finder"))
 
-        self.skill_label.setText(_translate("MainWindow", "Skill Path"))        
-        self.skill_description.setText(_translate("MainWindow", "Skill Description"))
+        self.skill_label.setText(_translate("MainWindow", "Select a Skill Path:"))        
+        self.skill_label.setFont(myFont)
 
-        self.role_label.setText(_translate("MainWindow", "Role Path"))
-        self.role_description_label.setText(_translate("MainWindow", "Role Description"))
+        self.skill_description.setText(_translate("MainWindow", "Skill Description:"))
+        self.skill_description.setFont(myFont)
 
+        self.role_label.setText(_translate("MainWindow", "Select A Role from the skill Path:"))
+        self.role_label.setFont(myFont)
+        self.role_description_label.setText(_translate("MainWindow", "Role Description:"))
+        self.role_description_label.setFont(myFont)
+        
         self.classes_label.setText(_translate("MainWindow", "Classes"))
-        self.pushButton.setText(_translate("MainWindow", "PushButton"))
+        self.classes_label.setFont(myFont)
+        self.pushButton.setText(_translate("MainWindow", "Clear"))
+        self.pushButton.setFont(myFont)
+
+
+    def force_print():
+        pass
+
+
 
     def on_skill_combo_box_changed(self, index):
 
@@ -366,42 +423,56 @@ class Ui_MainWindow(object):
         self.Class_list.clear()
         self.Role_list_view.clear()
         self.skill_description_list.clear()
-        
+
         print("skill combo selected")
         selectedItem = self.skill_combo_box.currentText()
-
-
+        
         #checks if the selected item exists in the database then adds all skill descriptions
-        if selectedItem in [x[1] for x in skillpaths]:
-            ItemDescription = skillpaths[[x[1] for x in skillpaths].index(selectedItem)][2]
-            print("item descption",ItemDescription)
-            self.skill_description_list.setText(ItemDescription) 
-           
-
-
-        #checks if the selected item has an ID and then adds all Rolenames
-        if skillpaths[[x[1] for x in skillpaths].index(selectedItem)][0] in [x[0][0] for x in skillroles]:
-            
-            items = ["",*[x[1] for x in skillroles if x[0][0]==skillpaths[[x[1] for x in skillpaths].index(selectedItem)][0]]]
-            print("Rolenames",items)
-            self.rol_combo_box.addItems(items)
+        if selectedItem is not None:
+            if selectedItem != "":
+                if selectedItem in [x[1] for x in skillpaths]:
+                    ItemDescription = skillpaths[[x[1] for x in skillpaths].index(selectedItem)][2]
+                    print("item descption",ItemDescription)
+                    self.skill_description_list.setText(ItemDescription) 
+                
+                #checks if the selected item has an ID and then adds all Rolenames
+                if skillpaths[[x[1] for x in skillpaths].index(selectedItem)][0] in [x[0][0] for x in skillroles]:            
+                    items = ["",*[x[1] for x in skillroles if x[0][0]==skillpaths[[x[1] for x in skillpaths].index(selectedItem)][0]]]
+                    print("Rolenames",items)
+                    self.rol_combo_box.addItems(items)
+        else:   
+            self.rol_combo_box.clear()
+            self.Class_list.clear()
+            self.Role_list_view.clear()
+            self.skill_description_list.clear()
 
     def on_rol_combo_box_changed(self, index):            
         print("role combo selected")
         selectedItem = self.rol_combo_box.currentText()
         print("role combo box",selectedItem)
-        if selectedItem in [x[1] for x in skillroles]:
-            roledescription = skillroles[[x[1] for x in skillroles].index(selectedItem)][2] 
-            self.Role_list_view.setText(roledescription)
-            
+        if selectedItem != "":
+            if selectedItem in [x[1] for x in skillroles]:
+                roledescription = skillroles[[x[1] for x in skillroles].index(selectedItem)][2] 
+                self.Role_list_view.setText(roledescription)
+                
+                #checks to make sure the selected item's id matches anything in skillclasses then returns the class id and class descriptor along with a spacer
+                items = [x[0]+":   "+x[1] for x in skillclasses if x[2]==skillroles[[x[1] for x in skillroles].index(selectedItem)][0]]
 
-            #checks to make sure the selected item's id matches anything in skillclasses then returns the class id and class descriptor along with a spacer
-            items = [x[0]+":   "+x[1] for x in skillclasses if x[2]==skillroles[[x[1] for x in skillroles].index(selectedItem)][0]]
-            
-        
-            
+                _translate = QtCore.QCoreApplication.translate
+                self.classes_label.setText(_translate("MainWindow", "Classes required for " + selectedItem))    
+                self.Class_list.clear()
+                self.Class_list.addItems(items)
+        else:
             self.Class_list.clear()
-            self.Class_list.addItems(items)
+            self.Role_list_view.clear()
+
+
+
+    def on_pushbutton_clicked(self):
+        self.rol_combo_box.clear()
+        self.Class_list.clear()
+        self.Role_list_view.clear()
+        self.skill_description_list.clear()
 
 if __name__ == "__main__":
     import sys
