@@ -440,7 +440,6 @@ class Ui_MainWindow(object):
                 #checks if the selected item has an ID and then adds all Rolenames
                 if skillpaths[[x[1] for x in skillpaths].index(selectedItem)][0] in [x[0][0] for x in skillroles]:            
                     items = ["",*[x[1] for x in skillroles if x[0][0]==skillpaths[[x[1] for x in skillpaths].index(selectedItem)][0]]]
-                    print("Rolenames",items)
                     self.rol_combo_box.addItems(items)
         else:   
             self.rol_combo_box.clear()
