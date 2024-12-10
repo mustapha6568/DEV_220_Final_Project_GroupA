@@ -24,7 +24,6 @@ skillroles = db_config.return_skillroles()
 skillpaths = db_config.return_skillpaths()
 
 
-#Turns the skillpaths variable into a class
 class skill_paths:
     
     def __init__(self,id:list,skillpathname:list,skillpathdescription:list) -> None:
@@ -288,7 +287,7 @@ class Ui_MainWindow(object):
         spacerItem1 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.path_vertical_layout.addItem(spacerItem1)
 
-
+        #Vertical layout
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(parent=self.centralwidget)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(380, 0, 415, 501))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
@@ -325,6 +324,7 @@ class Ui_MainWindow(object):
         self.Role_description_list.setWordWrap(True)
         self.verticalLayout_2.addWidget(self.Role_description_list)
 
+        #Add media players to the layoutwidget2
         self.media_player = QMediaPlayer(self.verticalLayoutWidget_2)
         self.audio_output = QAudioOutput(self.verticalLayoutWidget_2)
         self.media_player.setAudioOutput(self.audio_output)
@@ -476,12 +476,8 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
-    #from PyQt6.QtSql import QSqlDatabase  all functions from db and Qtsql were causing runtime errors
 
     app = QtWidgets.QApplication(sys.argv)
-    #if not open_connection():
-        #sys.exit(1)
-
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
