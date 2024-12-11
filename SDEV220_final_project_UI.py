@@ -218,6 +218,8 @@ Roles = skill_roles([x[0] for x in skillroles],[x[1] for x in skillroles],[x[2] 
 Paths = skill_paths([x[0] for x in skillpaths],[x[1] for x in skillpaths],[x[2] for x in skillpaths])
 
 
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
